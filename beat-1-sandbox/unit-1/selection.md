@@ -2,83 +2,104 @@
 
 Path: `beat-1-sandbox/unit-1/selection.md`
 
-Record of the issue carried into Unit 2, and of the evaluation runs that produced
-`eval-run.txt`. This file is graded at the path above; a copy kept anywhere else in
-the repository is not read.
-
-Complete every labelled field below. Each is graded on its own; content placed under the
-wrong label is not graded.
-
----
-
 ## Selected issue
 
 **Issue link**
 
-[The individual Path Review issue page. A link to the repository or the issue list
-does not satisfy this field.]
+https://github.com/codepath/pathreview-ai301-fa26-howard/issues/69
 
 **Verdict output**
 
-[Your skill's live-mode output for this issue, pasted verbatim and ending with the
-fenced JSON verdict block. A summary does not satisfy this field.]
+```text
+Issue Select — Live Mode
 
-**The verdict must record `accept` for this issue.** Choose an issue your own skill
-accepts. If your skill rejects every candidate you try, that is a signal about your
-rubric rather than about the issues: revise it and re-run — retries are unlimited and a
-partial re-run costs about $0.20 — or run the skill on different candidates. Output
-recording `reject` for the issue you chose earns no credit for this field.
+Issue: Output parser crashes on a top-level JSON array fallback (#69)
 
+Maintainer activity: PASS
+Repository activity: PASS
+Manageable scope: PASS
+Unclaimed: PASS
+Contribution policy: PASS
+
+Verdict: ACCEPT
 ```
-paste the output here, including the closing JSON block
+
+```json
+{
+  "item": "https://github.com/codepath/pathreview-ai301-fa26-howard/issues/69",
+  "checks": [
+    {
+      "name": "Maintainer activity",
+      "grade": "pass",
+      "evidence": "Latest default-branch commit was by Aburke225 (collaborator), within 90 days of 2026-10-05; no issue comments yet."
+    },
+    {
+      "name": "Repository activity",
+      "grade": "pass",
+      "evidence": "All 5 of the last 5 commits (2026-08-24 to 2026-09-16) are within 90 days."
+    },
+    {
+      "name": "Manageable scope",
+      "grade": "pass",
+      "evidence": "Bounded parser bug with an existing failing test; labels include good first issue and tier-1."
+    },
+    {
+      "name": "Unclaimed",
+      "grade": "pass",
+      "evidence": "Assignees: none; no comments; no referenced or linked PRs."
+    },
+    {
+      "name": "Contribution policy",
+      "grade": "pass",
+      "evidence": "docs/CONTRIBUTING.md has no AI ban or restriction; only workflow conditions such as commenting to claim, keeping CI green, and removing the xfail marker."
+    }
+  ],
+  "verdict": "accept"
+}
 ```
 
 ---
 
 ## Eval iterations
 
-Quote source text directly in each field below. Paraphrase does not satisfy them.
-
 **Run history**
 
-[The agreement score of each run you did, in order. A single run is a complete answer if
-only one run occurred. **The last score in your list must match the agreement line in the
-`eval-run.txt` you committed** — that file is the record of your final run.]
+```text
+Full run: 15/20
+Targeted rerun of issue-03, issue-04, issue-12, issue-13, issue-18: 5/5
+Full run after rubric revision: 18/20
+Final saved full run: 18/20
+```
+
+My first scored full run reached 15/20. I inspected the five disagreements instead of changing the rubric only to match the gold labels. After revising the evidence and pass conditions, I reran those five issues with `--only` and reached 5/5. I then ran the full evaluation again and reached 18/20. The final full run saved to `eval-run.txt` also scored 18/20 and met the category floor.
 
 **Issue analysis**
 
-[One scored issue, identified by id (`issue-01` through `issue-20`; the `calib-`
-issues are not scored). State your rubric's decision, the gold label, and the
-reasoning that produced your rubric's result.]
+I analyzed `issue-03`, which my original rubric accepted even though the gold label was reject. The issue contained a maintainer statement saying that they were not looking for contributions other than a specific contributor's PR. My original `Unclaimed` check only considered evidence from the last 30 days, which could allow an explicitly reserved issue to pass after enough time. I changed the check to consider assignments, explicit reservations, contributors already working on an issue, and open linked pull requests. With the revised rubric, `issue-03` was correctly rejected.
 
 **Check rationale**
 
-[One check from the `rubric.md` uploaded to `tools/issue-select/`, quoted as it is
-currently written, with the reasoning behind its current form.]
+Current `Unclaimed` check:
+
+> Pass if the issue has no assignee, there is no open linked pull request addressing it, no contributor states that they have started or are currently working on it, and no maintainer explicitly reserves it for another contributor.
+
+I chose this form because the evaluation showed several different ways that an issue can already be taken. `issue-03` was explicitly reserved, `issue-12` had a contributor who had already started working, and `issue-13` and `issue-18` had open linked pull requests. Checking all of these signals is more reliable than using only assignment status or a fixed time window.
 
 **Trade-offs**
 
-[What the quoted check gives up. Any one of these is a complete answer: an issue whose
-result it changes, a canary you re-ran with `--only`, a case you accept it will miss, or a
-stated reason nothing changed elsewhere. "Nothing changed, and here is how I know" earns
-the point in full when the reason follows.]
+The stricter `Unclaimed` check can reject an issue even when an existing contributor or pull request has become inactive. I accepted that trade-off because for a first contribution I would rather avoid duplicating active work than assume an existing claim is stale. I reran `issue-03`, `issue-04`, `issue-12`, `issue-13`, and `issue-18` after making the changes, and all five matched their gold labels. The final full evaluation still passed at 18/20.
 
 ---
 
 ## Selection rationale
 
-Graded on whether all three are answered, in your own words. Not on how good the
-reasoning is, and not on length — a short honest answer to each earns the full marks.
-This is also the basis for the claim comment you write in Unit 2.
-
 **Selection rationale**
 
-[Answer all three:
+1. Issue #69 fits my interests because it is a small debugging task involving application code rather than only documentation or a test-data adjustment. It is labeled as a good first issue and tier-1, and the existing failing test gives me a clear way to reproduce the problem and check my fix. That makes the scope reasonable for the time I have available.
 
-1. The issue's fit to your interests and to the time available.
-2. What the verdict identified correctly, and what you weighed that the rubric could
-   not.
-3. The anticipated difficulty in claiming it.]
+2. The verdict correctly identified that the repository is active, the issue is bounded, there is no linked pull request or assignee blocking it, and the contribution policy allows the work. I also compared it with the other accepted candidate, issue #63. Although #63 appeared smaller, I chose #69 because debugging the parser gives me more practice with the kind of software debugging and testing I want to improve.
+
+3. I expect claiming the issue to be straightforward but not automatic. The contribution instructions require commenting on the issue before starting, and another student could also choose it. Path Review's house rule says student claim comments do not block an issue, so another student's claim would not necessarily prevent me from working on it. I will still follow the repository's contribution instructions before beginning the implementation.
 
 ---
 
